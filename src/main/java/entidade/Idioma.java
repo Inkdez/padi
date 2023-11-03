@@ -51,9 +51,6 @@ public class Idioma {
 
     @Override
     public String toString() {
-        return "Idioma{" +
-                "id=" + id +
-                ", idioma='" + idioma + '\'' +
-                '}';
+        return idioma;
     }
 }

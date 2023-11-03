@@ -6,6 +6,12 @@ import java.io.IOException;
 
 public class Main {
       public static void main(String[] args) throws Exception {
-          Login login = new Login();
+          SwingUtilities.invokeLater(new Runnable() {
+              @Override
+              public void run() {
+                  Login login = new Login();
+                  login.setVisible(true);
+              }
+          });
     }
 }

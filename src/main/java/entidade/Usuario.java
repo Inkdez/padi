@@ -3,6 +3,7 @@ package entidade;
 import jakarta.persistence.*;
 
 @Entity
+@NamedQuery(name = "Usuario.porUsername", query = "SELECT  u FROM Usuario u where u.username =?1")
 public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -89,12 +90,10 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "Usuario{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", senha='" + senha + '\'' +
-                ", username='" + username + '\'' +
-                ", admin=" + admin +
-                '}';
+        return nome;
+    }
+
+    public boolean isAdmin() {
+        return admin == 1;
     }
 }

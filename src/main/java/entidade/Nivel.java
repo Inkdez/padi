@@ -51,9 +51,6 @@ public class Nivel {
 
     @Override
     public String toString() {
-        return "Nivel{" +
-                "id=" + id +
-                ", nivel='" + nivel + '\'' +
-                '}';
+        return nivel;
     }
 }
