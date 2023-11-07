@@ -7,18 +7,14 @@ import java.awt.event.ActionListener;
 
 import entidade.Usuario;
 import jakarta.persistence.*;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.query.Query;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Login extends JFrame {
-    private JTextField usernameField;
-    private JPasswordField passwordField;
-    private JButton loginButton;
+    private JTextField campoUsername;
+    private JPasswordField campoSenha;
+    private JButton fazerLogin;
 
     public Login() {
         setTitle("Login");
@@ -26,62 +22,58 @@ public class Login extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new GridLayout(3, 2));
+        campoUsername = new JTextField(20);
+        campoSenha = new JPasswordField(20);
+        fazerLogin = new JButton("Login");
 
-        JLabel usernameLabel = new JLabel("Username:");
-        JLabel passwordLabel = new JLabel("Password:");
-        usernameField = new JTextField(20);
-        passwordField = new JPasswordField(20);
-        loginButton = new JButton("Login");
-
-        add(usernameLabel);
-        add(usernameField);
-        add(passwordLabel);
-        add(passwordField);
+        add(new JLabel("Username:"));
+        add(campoUsername);
+        add(new JLabel("Senha:"));
+        add(campoSenha);
         add(new JLabel());
-        add(loginButton);
+        add(fazerLogin);
 
-        loginButton.addActionListener(new ActionListener() {
+        fazerLogin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String username = usernameField.getText();
-                char[] passwordChars = passwordField.getPassword();
+                String username = campoUsername.getText();
+                char[] passwordChars = campoSenha.getPassword();
                 String password = new String(passwordChars);
 
-                if (authenticate(username, password)) {
-                    PainelAdmin painelAdmin = new PainelAdmin();
+                if (autenticacao(username, password)[0] && autenticacao(username, password)[1]) {
+                    PainelAdministrativo painelAdmin = new PainelAdministrativo();
                     painelAdmin.setVisible(true);
                     dispose();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Login failed. Please check your credentials.");
+                } else  {
+                    JOptionPane.showMessageDialog(null, "Erro na autenticação: preencha correctamente os campos.");
                 }
-                passwordField.setText("");
+                campoSenha.setText("");
             }
         });
     }
 
-    private boolean authenticate(String username, String password) {
+    private boolean[] autenticacao(String username, String senha) {
 
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction entityTransaction = entityManager.getTransaction();
-        Usuario user = null;
+        Usuario usuario = null;
         try {
 
             entityTransaction.begin();
             TypedQuery<Usuario> typedQuery = entityManager.createNamedQuery("Usuario.porUsername",Usuario.class);
             typedQuery.setParameter(1,username);
             
-            if(typedQuery.getResultList().size() > 0) {
-                user =  (Usuario) typedQuery.getResultList().toArray()[0];
+            if(!typedQuery.getResultList().isEmpty()) {
+                usuario =  (Usuario) typedQuery.getResultList().toArray()[0];
             }
            
             entityTransaction.commit();
             
-            if (user != null) {
-                // Check if the entered password matches the stored hashed password
-                String hashedPassword = hashPassword(password);
-                if (hashedPassword.equals(user.getSenha())) {
-                    return true;
+            if (usuario != null) {
+                String hashedPassword = senhaMd5Hash(senha);
+                if (hashedPassword.equals(usuario.getSenha()) && usuario.isAdmin()) {
+                    return new boolean[]{true,true};
                 }
             }
         } catch (Exception e) {
@@ -94,11 +86,11 @@ public class Login extends JFrame {
             entityManagerFactory.close();
         }
 
-        return false;
+        return new boolean[]{false, false};
     }
 
     // Hash the password using MD5
-    private String hashPassword(String password) {
+    private String senhaMd5Hash(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(password.getBytes());
