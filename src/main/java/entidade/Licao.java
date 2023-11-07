@@ -3,7 +3,6 @@ package entidade;
 import jakarta.persistence.*;
 
 @Entity
-
 public class Licao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -13,7 +12,7 @@ public class Licao {
     @Column(name = "titulo", nullable = true, length = 145)
     private String titulo;
     @Basic
-    @Column(name = "conteudo", nullable = true, length = 45)
+    @Column(name = "conteudo", nullable = true, length = -1)
     private String conteudo;
     @Basic
     @Column(name = "ordem", nullable = true)
@@ -90,12 +89,6 @@ public class Licao {
 
     @Override
     public String toString() {
-        return "Licao{" +
-                "id=" + id +
-                ", titulo='" + titulo + '\'' +
-                ", conteudo='" + conteudo + '\'' +
-                ", ordem=" + ordem +
-                ", cursoId=" + cursoId +
-                '}';
+        return this.titulo;
     }
 }

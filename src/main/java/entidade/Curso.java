@@ -12,7 +12,7 @@ public class Curso {
     @Column(name = "titulo", nullable = true, length = 145)
     private String titulo;
     @Basic
-    @Column(name = "descricao", nullable = true, length = 45)
+    @Column(name = "descricao", nullable = true, length = -1)
     private String descricao;
     @Basic
     @Column(name = "IdiomaId", nullable = false)

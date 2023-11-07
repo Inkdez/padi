@@ -73,14 +73,4 @@ public class EstudanteTeste {
         result = 31 * result + questaoId;
         return result;
     }
-
-    @Override
-    public String toString() {
-        return "EstudanteTeste{" +
-                "id=" + id +
-                ", acertada=" + acertada +
-                ", estudanteId=" + estudanteId +
-                ", questaoId=" + questaoId +
-                '}';
-    }
 }

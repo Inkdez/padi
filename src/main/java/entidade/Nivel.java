@@ -3,7 +3,6 @@ package entidade;
 import jakarta.persistence.*;
 
 @Entity
-
 public class Nivel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -51,6 +50,6 @@ public class Nivel {
 
     @Override
     public String toString() {
-        return nivel;
+        return this.nivel;
     }
 }

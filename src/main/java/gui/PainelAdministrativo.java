@@ -101,37 +101,37 @@ public class PainelAdministrativo extends JFrame {
 
     private void openUsuarioCRUD() {
         UsuarioUI usuarioUI = new UsuarioUI(new Armazenamento());
-        this.dispose();
+//        this.dispose();
         usuarioUI.setVisible(true);
     }
 
     private void openNivelCRUD() {
         NivelUI nivelUI = new NivelUI(new Armazenamento());
-        this.dispose();
+//        this.dispose();
         nivelUI.setVisible(true);
     }
 
     private void openIdiomaCRUD() {
         IdiomaUI idiomaUI = new IdiomaUI(new Armazenamento());
-        this.dispose();
+//        this.dispose();
         idiomaUI.setVisible(true);
     }
 
     private void openCursoCRUD() {
         CursoUI cursoUI = new CursoUI(new Armazenamento());
-        this.dispose();
+//        this.dispose();
         cursoUI.setVisible(true);
     }
 
     private void openLicaoCRUD() {
         LicaoUI licaoUI = new LicaoUI(new Armazenamento());
-        this.dispose();
+//        this.dispose();
         licaoUI.setVisible(true);
     }
 
     private void openTesteCRUD() {
         TesteUI testeUI = new TesteUI(new Armazenamento());
-        this.dispose();
+//        this.dispose();
         testeUI.setVisible(true);
     }
 

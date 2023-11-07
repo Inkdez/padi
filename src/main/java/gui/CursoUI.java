@@ -61,7 +61,7 @@ public class CursoUI extends JFrame {
 
         setTitle("Curso CRUD");
         setSize(600, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 

@@ -2,8 +2,9 @@ package entidade;
 
 import jakarta.persistence.*;
 
-@Entity
+import java.util.List;
 
+@Entity
 public class Teste {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -18,6 +19,17 @@ public class Teste {
     @Basic
     @Column(name = "CursoId", nullable = false)
     private int cursoId;
+
+    @OneToMany(mappedBy = "teste", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Questao> questoes;
+
+    public List<Questao> getQuestoes() {
+        return questoes;
+    }
+
+    public void setQuestoes(List<Questao> questoes) {
+        this.questoes = questoes;
+    }
 
     public int getId() {
         return id;
@@ -77,11 +89,6 @@ public class Teste {
 
     @Override
     public String toString() {
-        return "Teste{" +
-                "id=" + id +
-                ", titulo='" + titulo + '\'' +
-                ", ordem=" + ordem +
-                ", cursoId=" + cursoId +
-                '}';
+        return this.titulo;
     }
 }

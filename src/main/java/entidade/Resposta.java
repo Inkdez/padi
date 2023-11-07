@@ -3,7 +3,6 @@ package entidade;
 import jakarta.persistence.*;
 
 @Entity
-
 public class Resposta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -18,6 +17,18 @@ public class Resposta {
     @Basic
     @Column(name = "QuestaoId", nullable = false)
     private int questaoId;
+
+    @ManyToOne
+    @JoinColumn(name = "QuestaoId",insertable = false,updatable = false)
+    private Questao questao;
+
+    public Questao getQuestao() {
+        return questao;
+    }
+
+    public void setQuestao(Questao questao) {
+        this.questao = questao;
+    }
 
     public int getId() {
         return id;
@@ -77,11 +88,6 @@ public class Resposta {
 
     @Override
     public String toString() {
-        return "Resposta{" +
-                "id=" + id +
-                ", resposta='" + resposta + '\'' +
-                ", correta=" + correta +
-                ", questaoId=" + questaoId +
-                '}';
+        return this.resposta;
     }
 }

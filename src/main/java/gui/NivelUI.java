@@ -35,7 +35,7 @@ public class NivelUI extends JFrame {
 
         setTitle("Níveis de curso (Idiomas).");
         setSize(400, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 

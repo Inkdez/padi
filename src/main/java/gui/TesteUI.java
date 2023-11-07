@@ -22,6 +22,8 @@ public class TesteUI extends JFrame {
     private JButton editarTeste;
     private JButton removerTeste;
 
+    private JButton criarQuestionario;
+
     public TesteUI(Armazenamento armazenamento) {
         this.armazenamento = armazenamento;
 
@@ -48,10 +50,11 @@ public class TesteUI extends JFrame {
         criarTeste = new JButton("+ criar");
         editarTeste = new JButton("Editar");
         removerTeste = new JButton("Remover");
+        criarQuestionario = new JButton("Elaborar teste.");
 
         setTitle("Testes");
         setSize(600, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
@@ -65,6 +68,7 @@ public class TesteUI extends JFrame {
         topPanel.add(criarTeste);
         topPanel.add(editarTeste);
         topPanel.add(removerTeste);
+        topPanel.add(criarQuestionario);
 
         add(new JScrollPane(testeLista), BorderLayout.CENTER);
         add(topPanel, BorderLayout.NORTH);
@@ -87,6 +91,13 @@ public class TesteUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 removerTeste();
+            }
+        });
+
+        criarQuestionario.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                criarQuestionario();
             }
         });
 
@@ -147,6 +158,19 @@ public class TesteUI extends JFrame {
             actualizarTabela();
         } else {
             JOptionPane.showMessageDialog(this, "Selecione um teste para remover.");
+        }
+    }
+
+    private void criarQuestionario() {
+        int selectedRow = testeLista.getSelectedRow();
+        if (selectedRow != -1) {
+            int id = (int) testeTabela.getValueAt(selectedRow, 0);
+            var test = (Teste) armazenamento.prourarObjecto(id, Teste.class);
+            CriarTeste testeUI = new CriarTeste(test,new Armazenamento());
+            testeUI.setVisible(true);
+            actualizarTabela();
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecione um teste para poder elaboralo.");
         }
     }
 

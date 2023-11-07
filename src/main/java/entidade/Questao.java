@@ -2,7 +2,12 @@ package entidade;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
+
+@NamedQuery(name = "Questao.porTestId",query = "select  u from  Questao  u where  u.testeId =?1")
 
 public class Questao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,6 +20,35 @@ public class Questao {
     @Basic
     @Column(name = "TesteId", nullable = false)
     private int testeId;
+
+    @OneToMany(mappedBy = "questao", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Resposta> respostas;
+
+    @ManyToOne
+    @JoinColumn(name = "TesteId",insertable = false,updatable = false)
+    private Teste teste;
+
+
+    public Teste getTeste() {
+        return teste;
+    }
+
+    public void setTeste(Teste teste) {
+        this.teste = teste;
+    }
+
+
+
+    public void setRespostas(List<Resposta> respostas) {
+        this.respostas = respostas;
+    }
+
+
+
+
+    public List<Resposta> getRespostas() {
+        return respostas;
+    }
 
     public int getId() {
         return id;
@@ -62,12 +96,21 @@ public class Questao {
         return result;
     }
 
+
+//    @Override
+//    public String toString() {
+//        return this.questao;
+//    }
+
+
     @Override
     public String toString() {
         return "Questao{" +
                 "id=" + id +
                 ", questao='" + questao + '\'' +
                 ", testeId=" + testeId +
+                ", respostas=" + respostas +
+                ", teste=" + teste +
                 '}';
     }
 }
