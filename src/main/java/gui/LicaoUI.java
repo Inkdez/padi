@@ -58,6 +58,7 @@ public class LicaoUI extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         JPanel topPanel = new JPanel(new FlowLayout());
         topPanel.add(titleLabel);

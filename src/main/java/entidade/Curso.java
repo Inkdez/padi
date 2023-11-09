@@ -2,6 +2,8 @@ package entidade;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class Curso {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +25,28 @@ public class Curso {
     @Basic
     @Column(name = "NivelId", nullable = false)
     private int nivelId;
+
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Teste> testes;
+
+    public List<Teste> getTestes() {
+        return testes;
+    }
+
+    public void setTestes(List<Teste> testes) {
+        this.testes = testes;
+    }
+
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Licao> licoes;
+
+    public List<Licao> getLicoes() {
+        return licoes;
+    }
+
+    public void setLicoes(List<Licao> licoes) {
+        this.licoes = licoes;
+    }
 
     public int getId() {
         return id;

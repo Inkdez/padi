@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import entidade.Usuario;
 import jakarta.persistence.*;
+import util.Armazenamento;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -39,11 +40,21 @@ public class Login extends JFrame {
                 String username = campoUsername.getText();
                 char[] passwordChars = campoSenha.getPassword();
                 String password = new String(passwordChars);
+                var autenticacado = (boolean) autenticacao(username, password)[0];
+                var admin = (boolean) autenticacao(username, password)[1];
+                var usuarioAutenticado = (Usuario) autenticacao(username, password)[2];
 
-                if (autenticacao(username, password)[0] && autenticacao(username, password)[1]) {
+                if (autenticacado && admin) {
                     PainelAdministrativo painelAdmin = new PainelAdministrativo();
                     painelAdmin.setVisible(true);
                     dispose();
+                } else if (autenticacado && !admin){
+                    dispose();
+                    PainelDeEsrudante painelDeEsrudante = new PainelDeEsrudante(
+                            new Armazenamento(),
+                            usuarioAutenticado
+                    );
+
                 } else  {
                     JOptionPane.showMessageDialog(null, "Erro na autenticação: preencha correctamente os campos.");
                 }
@@ -52,7 +63,7 @@ public class Login extends JFrame {
         });
     }
 
-    private boolean[] autenticacao(String username, String senha) {
+    private Object[] autenticacao(String username, String senha) {
 
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -73,7 +84,9 @@ public class Login extends JFrame {
             if (usuario != null) {
                 String hashedPassword = senhaMd5Hash(senha);
                 if (hashedPassword.equals(usuario.getSenha()) && usuario.isAdmin()) {
-                    return new boolean[]{true,true};
+                    return new Object[]{true,true,usuario};
+                } else if ( hashedPassword.equals(usuario.getSenha()) && !usuario.isAdmin() ) {
+                    return  new Object[]{true,false,usuario};
                 }
             }
         } catch (Exception e) {
@@ -86,7 +99,7 @@ public class Login extends JFrame {
             entityManagerFactory.close();
         }
 
-        return new boolean[]{false, false};
+        return new Object[]{false, false,usuario};
     }
 
     // Hash the password using MD5

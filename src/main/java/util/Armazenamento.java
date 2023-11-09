@@ -1,5 +1,8 @@
 package util;
 
+import entidade.EstudanteCurso;
+import entidade.EstudanteLicao;
+import entidade.Licao;
 import entidade.Questao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -106,7 +109,6 @@ public class Armazenamento<T> {
         return true;
     }
 
-
     public List<T> listaDeObjectos(Class<T> typeClass) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -141,6 +143,55 @@ public class Armazenamento<T> {
                     .getResultList();
             for (Object o: ems)
                 result.add(Questao.class.cast(o));
+            entityTransaction.commit();
+        } finally {
+            if (entityTransaction.isActive()) {
+                entityTransaction.rollback();
+            }
+            entityManager.close();
+            entityManagerFactory.close();
+        }
+        return result;
+    }
+
+    public List<EstudanteCurso> listaDeEstudanteCursoPorinscricao(int curso,int estudante ) {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        List<EstudanteCurso> result = new ArrayList<>();
+        try {
+            entityTransaction.begin();
+            List<EstudanteCurso> ems = (List<EstudanteCurso>) entityManager.createNamedQuery("EstudanteCurso.porinscricao")
+                    .setParameter(1,estudante)
+                    .setParameter(2,curso)
+                    .getResultList();
+            for (Object o: ems)
+                result.add(EstudanteCurso.class.cast(o));
+            entityTransaction.commit();
+        } finally {
+            if (entityTransaction.isActive()) {
+                entityTransaction.rollback();
+            }
+            entityManager.close();
+            entityManagerFactory.close();
+        }
+        return result;
+    }
+
+
+    public List<EstudanteLicao> listaDeEstudanteLicaoProgresso(int licao, int estudante ) {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        List<EstudanteLicao> result = new ArrayList<>();
+        try {
+            entityTransaction.begin();
+            List<EstudanteLicao> ems = (List<EstudanteLicao>) entityManager.createNamedQuery("EstudanteLicao.progresso")
+                    .setParameter(1,estudante)
+                    .setParameter(2,licao)
+                    .getResultList();
+            for (Object o: ems)
+                result.add(EstudanteLicao.class.cast(o));
             entityTransaction.commit();
         } finally {
             if (entityTransaction.isActive()) {

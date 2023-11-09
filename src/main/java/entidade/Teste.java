@@ -20,6 +20,18 @@ public class Teste {
     @Column(name = "CursoId", nullable = false)
     private int cursoId;
 
+    @ManyToOne
+    @JoinColumn(name = "CursoId",insertable = false,updatable = false)
+    private Curso curso;
+
+    public void setCurso(Curso curso) {
+        this.curso = curso;
+    }
+
+    public Curso getCurso() {
+        return curso;
+    }
+
     @OneToMany(mappedBy = "teste", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Questao> questoes;
 

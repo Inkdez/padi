@@ -21,6 +21,19 @@ public class Licao {
     @Column(name = "CursoId", nullable = false)
     private int cursoId;
 
+
+    @ManyToOne
+    @JoinColumn(name = "CursoId",insertable = false,updatable = false)
+    private Curso curso;
+
+    public Curso getCurso() {
+        return curso;
+    }
+
+    public void setCurso(Curso curso) {
+        this.curso = curso;
+    }
+
     public int getId() {
         return id;
     }
@@ -56,6 +69,8 @@ public class Licao {
     public int getCursoId() {
         return cursoId;
     }
+
+
 
     public void setCursoId(int cursoId) {
         this.cursoId = cursoId;

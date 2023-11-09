@@ -3,6 +3,8 @@ package entidade;
 import jakarta.persistence.*;
 
 @Entity
+
+@NamedQuery(name = "EstudanteLicao.progresso",query = "select  u from  EstudanteLicao  u where  u.estudanteId =?1 and u.licaoId =?2")
 public class EstudanteLicao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

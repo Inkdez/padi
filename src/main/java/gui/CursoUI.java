@@ -64,6 +64,7 @@ public class CursoUI extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         JPanel topPanel = new JPanel(new GridLayout(1, 12, 4, 10));
         topPanel.add(tituloLabel);
